@@ -8,14 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var viewModel = contentViewModel()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            Form {
+                
+                Toggle(isOn: $viewModel.isOn) {
+                    Text("終日")
+                }
+                
+                
+                DatePicker(selection: $viewModel.date, displayedComponents: [ viewModel.isOn ? [.date] : [.date, .hourAndMinute]]) {
+                    Text("開始")
+                }
+                
+                
+                
+                DatePicker(selection: $viewModel.date2, displayedComponents: [ viewModel.isOn ? [.date] : [.date, .hourAndMinute]]) {
+                    Text("終了")
+                }
+                
+            }
+            .onChange(of: viewModel.date) { newValue in
+                viewModel.hoge()
+            }
         }
-        .padding()
     }
 }
 
