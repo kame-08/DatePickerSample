@@ -16,6 +16,9 @@ class contentViewModel:ObservableObject {
     //カレンダーorリマインダー
     @Published var cal = 1
     
+    //タイトル
+    @Published var title = ""
+    
     //メモ
     @Published var memo = ""
     

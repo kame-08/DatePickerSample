@@ -12,15 +12,16 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Form {
-                Picker(selection: $viewModel.cal, label: /*@START_MENU_TOKEN@*/Text("Picker")/*@END_MENU_TOKEN@*/) {
+                
+                Picker(selection: $viewModel.cal, label: Text("Picker")) {
                     Text("カレンダー").tag(1)
                     Text("リマインダー").tag(2)
                 }
                 .pickerStyle(.segmented)
                 
-                TextField("タイトル", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                TextField("タイトル", text: $viewModel.title)
                 
-                TextField("URL", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                TextField("URL", text: .constant(""))
                 
                 Toggle(isOn: $viewModel.isOn) {
                     Text("終日")
@@ -36,24 +37,33 @@ struct ContentView: View {
                     }
                 }
                 
-                if #available(iOS 16.0, *) {
-                    TextField("メモ", text: $viewModel.memo, axis: .vertical)
-                } else {
-                    // Fallback on earlier versions
-                }
+                //                if #available(iOS 16.0, *) {
+                //                    TextField("メモ", text: $viewModel.memo, axis: .vertical)
+                //                } else {
+                //                    // Fallback on earlier versions
+                //                }
                 
-                ZStack(alignment: .leading) {
-                    TextEditor(text: $viewModel.memo)
+                ZStack(alignment: .topLeading) {
+                    
                     if viewModel.memo.isEmpty {
                         Text("メモ")
                             .foregroundColor(Color(UIColor.placeholderText))
-                        
+                            .padding([.top, .trailing], 8.0)
                     }
+                    
+                    TextEditor(text: $viewModel.memo)
+                        .padding(.leading, -4.0)
                 }
             }
             .onChange(of: viewModel.date) { newValue in
                 viewModel.hoge()
             }
+            .toolbar {
+                Text("追加")
+            }
+            .navigationTitle("aaa")
+            .navigationBarTitleDisplayMode(.inline)
+            //            .navigationBarHidden(i)
         }
     }
 }
